@@ -1,0 +1,37 @@
+name: ci
+
+on: 
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    name: Selene
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+    
+      - name: Install Foreman
+        uses: rojo-rbx/setup-foreman@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: foreman install
+      - run: selene src/
+  style:
+    name: Stylua
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Foreman
+        uses: rojo-rbx/setup-foreman@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - run: foreman install
+      - run: stylua src/
